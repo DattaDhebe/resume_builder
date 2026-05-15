@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
         slivers: [
           SliverAppBar.large(
             pinned: true,
-            title: const Text('Resume Builder'),
+            title: const Text('Dhebe Resume Builder'),
             actions: [
               IconButton(
                 tooltip: 'Choose template',
@@ -53,23 +53,66 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(28),
                       gradient: const LinearGradient(
                         colors: [
-                          Color(0xFF0F766E),
-                          Color(0xFF155E75),
-                          Color(0xFF164E63),
+                          Color(0xFFF8FBFF),
+                          Color(0xFFE8F1FF),
+                          Color(0xFFDDEAFF),
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
+                      border: Border.all(color: const Color(0xFFC9DBFF)),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x140B2242),
+                          blurRadius: 24,
+                          offset: Offset(0, 12),
+                        ),
+                      ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Design polished resumes, save multiple drafts, and export PDF files in minutes.',
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 72,
+                              height: 72,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Image.asset(
+                                'assets/images/dhebe_resume_builder_logo.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Dhebe Resume Builder',
+                                    style: theme.textTheme.headlineSmall?.copyWith(
+                                      color: const Color(0xFF0B2242),
+                                      fontWeight: FontWeight.w800,
+                                      height: 1.1,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Build polished resumes, save drafts, and export professional PDFs with stronger readability and a cleaner flow.',
+                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                      color: const Color(0xFF28466C),
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 16),
                         Wrap(
@@ -154,9 +197,9 @@ class _MetricChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.14),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white24),
+        border: Border.all(color: const Color(0xFFD4E2FF)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,11 +207,11 @@ class _MetricChip extends StatelessWidget {
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
+                  color: const Color(0xFF0B2242),
                   fontWeight: FontWeight.w700,
                 ),
           ),
-          Text(label, style: const TextStyle(color: Colors.white70)),
+          Text(label, style: const TextStyle(color: Color(0xFF4D678A))),
         ],
       ),
     );

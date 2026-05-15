@@ -28,7 +28,7 @@ class _ResumeBuilderAppState extends State<ResumeBuilderApp> {
     const seed = Color(0xFF0E7490);
 
     return MaterialApp.router(
-      title: 'Resume Builder',
+      title: 'Dhebe Resume Builder',
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
       theme: ThemeData(
@@ -39,6 +39,7 @@ class _ResumeBuilderAppState extends State<ResumeBuilderApp> {
           centerTitle: false,
           backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
+          foregroundColor: Color(0xFF0B2242),
         ),
         cardTheme: CardThemeData(
           elevation: 0,
