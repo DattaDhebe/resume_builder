@@ -1,30 +1,49 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
-import 'package:resume_builder/main.dart';
+import 'package:resume_builder/app.dart';
+import 'package:resume_builder/models/resume_model.dart';
+import 'package:resume_builder/providers/resume_provider.dart';
+import 'package:resume_builder/services/storage_service.dart';
+
+class FakeStorageService extends StorageService {
+  final List<ResumeModel> _items = [];
+
+  @override
+  Future<List<ResumeModel>> fetchResumes() async => _items;
+
+  @override
+  Future<void> saveResume(ResumeModel resume) async {
+    final index = _items.indexWhere((item) => item.id == resume.id);
+    if (index == -1) {
+      _items.add(resume);
+    } else {
+      _items[index] = resume;
+    }
+  }
+
+  @override
+  Future<void> deleteResume(String resumeId) async {
+    _items.removeWhere((item) => item.id == resumeId);
+  }
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('home screen renders primary actions', (tester) async {
+    final provider = ResumeProvider(storageService: FakeStorageService());
+    await provider.loadResumes();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      ChangeNotifierProvider<ResumeProvider>.value(
+        value: provider,
+        child: const ResumeBuilderApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Resume Builder'), findsWidgets);
+    expect(find.text('New Resume'), findsOneWidget);
+    expect(find.text('Create a new resume'), findsOneWidget);
+    expect(find.text('Quick Start'), findsOneWidget);
   });
 }
