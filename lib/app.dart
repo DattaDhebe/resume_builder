@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'screens/home_screen.dart';
-import 'screens/resume_form_screen.dart';
-import 'screens/resume_preview_screen.dart';
+import 'screens/dashboard_home_screen.dart';
+import 'screens/resume_editor_screen.dart';
+import 'screens/resume_export_screen.dart';
 import 'screens/template_selection_screen.dart';
 
 class ResumeBuilderApp extends StatefulWidget {
@@ -41,11 +41,42 @@ class _ResumeBuilderAppState extends State<ResumeBuilderApp> {
           surfaceTintColor: Colors.transparent,
           foregroundColor: Color(0xFF0B2242),
         ),
+        textTheme: ThemeData.light().textTheme.apply(
+              bodyColor: const Color(0xFF0B2242),
+              displayColor: const Color(0xFF0B2242),
+            ),
         cardTheme: CardThemeData(
           elevation: 0,
           color: Colors.white,
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: const Color(0xFF0E7490),
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: const Color(0xFF0B2242),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            side: const BorderSide(color: Color(0xFFD5E0EA)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+          ),
+        ),
+        chipTheme: ChipThemeData(
+          backgroundColor: const Color(0xFFF4F7FB),
+          selectedColor: const Color(0xFFDDF3F8),
+          side: const BorderSide(color: Color(0xFFD6E0EA)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          labelStyle: const TextStyle(color: Color(0xFF0B2242)),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,

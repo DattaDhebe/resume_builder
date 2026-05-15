@@ -9,15 +9,24 @@ List<pw.Widget> buildAtsTemplate(ResumeModel resume) {
       resume.fullName.isEmpty ? 'Your Name' : resume.fullName,
       style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold),
     ),
+    if (resume.displayRole.isNotEmpty) ...[
+      pw.SizedBox(height: 3),
+      pw.Text(
+        resume.displayRole,
+        style: pw.TextStyle(
+          fontSize: 12,
+          fontWeight: pw.FontWeight.bold,
+          color: PdfColor.fromHex('#0E7490'),
+        ),
+      ),
+    ],
     pw.SizedBox(height: 4),
-    pw.Text(
-      [
-        if (resume.email.isNotEmpty) resume.email,
-        if (resume.phone.isNotEmpty) resume.phone,
-        if (resume.address.isNotEmpty) resume.address,
-      ].join('  |  '),
-      style: const pw.TextStyle(fontSize: 10),
-    ),
+    if (resume.contactLine.isNotEmpty)
+      pw.Text(resume.contactLine, style: const pw.TextStyle(fontSize: 10)),
+    if (resume.linksLine.isNotEmpty) ...[
+      pw.SizedBox(height: 3),
+      pw.Text(resume.linksLine, style: const pw.TextStyle(fontSize: 10)),
+    ],
     pw.SizedBox(height: 18),
     _sectionTitle('Professional Summary'),
     pw.Text(
@@ -46,6 +55,27 @@ List<pw.Widget> buildAtsTemplate(ResumeModel resume) {
               )
               .toList(),
     ),
+    if (resume.focusKeywords.isNotEmpty) ...[
+      pw.SizedBox(height: 14),
+      _sectionTitle('Target Keywords'),
+      pw.Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: resume.focusKeywords
+            .map(
+              (keyword) => pw.Container(
+                padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: pw.BoxDecoration(
+                  color: PdfColor.fromHex('#ECFEFF'),
+                  borderRadius: pw.BorderRadius.circular(10),
+                  border: pw.Border.all(color: PdfColor.fromHex('#A5F3FC')),
+                ),
+                child: pw.Text(keyword, style: const pw.TextStyle(fontSize: 10)),
+              ),
+            )
+            .toList(),
+      ),
+    ],
     pw.SizedBox(height: 14),
     _sectionTitle('Experience'),
     if (resume.experience.isEmpty)
@@ -79,6 +109,47 @@ List<pw.Widget> buildAtsTemplate(ResumeModel resume) {
           ),
         ),
       ),
+    if (resume.projects.isNotEmpty) ...[
+      pw.SizedBox(height: 14),
+      _sectionTitle('Projects'),
+      ...resume.projects.map(
+        (entry) => pw.Padding(
+          padding: const pw.EdgeInsets.only(bottom: 12),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text(
+                entry.name,
+                style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 12),
+              ),
+              if (entry.role.isNotEmpty || entry.tools.isNotEmpty)
+                pw.Text(
+                  [
+                    if (entry.role.isNotEmpty) entry.role,
+                    if (entry.tools.isNotEmpty) entry.tools,
+                  ].join(' | '),
+                  style: const pw.TextStyle(fontSize: 10.5),
+                ),
+              if (entry.url.isNotEmpty)
+                pw.Text(
+                  entry.url,
+                  style: pw.TextStyle(
+                    fontSize: 10,
+                    color: PdfColor.fromHex('#0E7490'),
+                  ),
+                ),
+              pw.SizedBox(height: 4),
+              ...entry.highlights.map(
+                (highlight) => pw.Bullet(
+                  text: highlight,
+                  style: const pw.TextStyle(fontSize: 10.5),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
     pw.SizedBox(height: 14),
     _sectionTitle('Education'),
     if (resume.education.isEmpty)
@@ -110,6 +181,28 @@ List<pw.Widget> buildAtsTemplate(ResumeModel resume) {
           ),
         ),
       ),
+    if (resume.certifications.isNotEmpty) ...[
+      pw.SizedBox(height: 14),
+      _sectionTitle('Certifications'),
+      ...resume.certifications.map(
+        (entry) => pw.Padding(
+          padding: const pw.EdgeInsets.only(bottom: 8),
+          child: pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Expanded(
+                child: pw.Text(
+                  '${entry.name} | ${entry.issuer}',
+                  style: const pw.TextStyle(fontSize: 10.8),
+                ),
+              ),
+              pw.SizedBox(width: 12),
+              pw.Text(entry.year, style: const pw.TextStyle(fontSize: 10)),
+            ],
+          ),
+        ),
+      ),
+    ],
   ];
 }
 

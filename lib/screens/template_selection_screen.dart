@@ -27,12 +27,13 @@ class TemplateSelectionScreen extends StatelessWidget {
         children: [
           SectionCard(
             title: 'Template Gallery',
-            subtitle: 'Switch layout style anytime before exporting your PDF.',
+            subtitle: 'Choose an ATS-safe structure or a fresher-forward visual layout.',
+            icon: Icons.view_quilt_outlined,
             child: Column(
               children: [
                 _TemplateOption(
                   title: 'ATS Professional',
-                  description: 'A clean one-column resume layout optimized for applicant tracking systems.',
+                  description: 'A clean one-column layout with strong readability for scanners and recruiters.',
                   selected: resume.templateId == 'ats',
                   accent: const Color(0xFF155E75),
                   onTap: () {
@@ -42,7 +43,7 @@ class TemplateSelectionScreen extends StatelessWidget {
                 const SizedBox(height: 14),
                 _TemplateOption(
                   title: 'Fresher Spotlight',
-                  description: 'A softer visual layout that gives extra weight to education and skills.',
+                  description: 'A softer visual layout that gives more weight to education, skills, and projects.',
                   selected: resume.templateId == 'fresher',
                   accent: const Color(0xFF0F766E),
                   onTap: () {

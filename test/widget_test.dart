@@ -41,9 +41,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Resume Builder'), findsWidgets);
+    expect(find.text('DResume'), findsWidgets);
     expect(find.text('New Resume'), findsOneWidget);
-    expect(find.text('Create a new resume'), findsOneWidget);
-    expect(find.text('Quick Start'), findsOneWidget);
+    expect(find.text('Feature Highlights'), findsOneWidget);
+    expect(find.text('ATS readiness scan'), findsOneWidget);
   });
 }

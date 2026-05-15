@@ -22,6 +22,17 @@ List<pw.Widget> buildFresherTemplate(ResumeModel resume) {
               color: PdfColor.fromHex('#0F4C5C'),
             ),
           ),
+          if (resume.displayRole.isNotEmpty) ...[
+            pw.SizedBox(height: 4),
+            pw.Text(
+              resume.displayRole,
+              style: pw.TextStyle(
+                fontSize: 11.5,
+                fontWeight: pw.FontWeight.bold,
+                color: PdfColor.fromHex('#1450A3'),
+              ),
+            ),
+          ],
           pw.SizedBox(height: 8),
           pw.Text(
             resume.summary.isEmpty
@@ -30,14 +41,12 @@ List<pw.Widget> buildFresherTemplate(ResumeModel resume) {
             style: const pw.TextStyle(fontSize: 11, lineSpacing: 3),
           ),
           pw.SizedBox(height: 10),
-          pw.Text(
-            [
-              if (resume.email.isNotEmpty) resume.email,
-              if (resume.phone.isNotEmpty) resume.phone,
-              if (resume.address.isNotEmpty) resume.address,
-            ].join('  |  '),
-            style: const pw.TextStyle(fontSize: 10),
-          ),
+          if (resume.contactLine.isNotEmpty)
+            pw.Text(resume.contactLine, style: const pw.TextStyle(fontSize: 10)),
+          if (resume.linksLine.isNotEmpty) ...[
+            pw.SizedBox(height: 4),
+            pw.Text(resume.linksLine, style: const pw.TextStyle(fontSize: 9.8)),
+          ],
         ],
       ),
     ),
@@ -72,10 +81,11 @@ List<pw.Widget> buildFresherTemplate(ResumeModel resume) {
                 ),
               pw.SizedBox(height: 14),
               _title('Projects / Experience'),
-              if (resume.experience.isEmpty)
+              if (resume.experience.isEmpty && resume.projects.isEmpty)
                 pw.Text('Add internships, projects, or volunteer work.')
               else
-                ...resume.experience.map(
+                ...[
+                  ...resume.experience.map(
                   (entry) => pw.Padding(
                     padding: const pw.EdgeInsets.only(bottom: 10),
                     child: pw.Column(
@@ -94,6 +104,39 @@ List<pw.Widget> buildFresherTemplate(ResumeModel resume) {
                     ),
                   ),
                 ),
+                  ...resume.projects.map(
+                    (entry) => pw.Padding(
+                      padding: const pw.EdgeInsets.only(bottom: 10),
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            entry.name,
+                            style: pw.TextStyle(
+                              fontWeight: pw.FontWeight.bold,
+                              fontSize: 11.5,
+                            ),
+                          ),
+                          if (entry.role.isNotEmpty || entry.tools.isNotEmpty)
+                            pw.Text(
+                              [
+                                if (entry.role.isNotEmpty) entry.role,
+                                if (entry.tools.isNotEmpty) entry.tools,
+                              ].join(' | '),
+                            ),
+                          if (entry.url.isNotEmpty) pw.Text(entry.url),
+                          pw.SizedBox(height: 2),
+                          ...entry.highlights.map(
+                            (item) => pw.Bullet(
+                              text: item,
+                              style: const pw.TextStyle(fontSize: 10.2),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
             ],
           ),
         ),
@@ -119,6 +162,26 @@ List<pw.Widget> buildFresherTemplate(ResumeModel resume) {
                       child: pw.Text('• $skill'),
                     ),
                   ),
+                if (resume.certifications.isNotEmpty) ...[
+                  pw.SizedBox(height: 12),
+                  _title('Certifications'),
+                  ...resume.certifications.map(
+                    (entry) => pw.Padding(
+                      padding: const pw.EdgeInsets.only(bottom: 6),
+                      child: pw.Text('${entry.name} (${entry.year})'),
+                    ),
+                  ),
+                ],
+                if (resume.focusKeywords.isNotEmpty) ...[
+                  pw.SizedBox(height: 12),
+                  _title('Keywords'),
+                  ...resume.focusKeywords.map(
+                    (keyword) => pw.Padding(
+                      padding: const pw.EdgeInsets.only(bottom: 6),
+                      child: pw.Text('- $keyword'),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

@@ -18,6 +18,11 @@ class ResumeProvider extends ChangeNotifier {
   ResumeModel? get currentResume => _currentResume;
   bool get isLoaded => _isLoaded;
   int get completedCount => _resumes.where((item) => item.isComplete).length;
+  int get averageAtsScore {
+    if (_resumes.isEmpty) return 0;
+    final total = _resumes.fold<int>(0, (sum, item) => sum + item.atsScore);
+    return (total / _resumes.length).round();
+  }
 
   Future<void> loadResumes() async {
     _resumes = await storageService.fetchResumes();

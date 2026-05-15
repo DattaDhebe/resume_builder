@@ -10,7 +10,7 @@ import 'package:printing/printing.dart';
 
 import '../models/resume_model.dart';
 import '../templates/ats_template.dart';
-import '../templates/fresher_template.dart';
+import '../templates/fresher_spotlight_template.dart';
 
 class PdfService {
   static Future<Uint8List> buildResumePdf(ResumeModel resume) async {
