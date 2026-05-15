@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
         slivers: [
           SliverAppBar.large(
             pinned: true,
-            title: const Text('Dhebe Resume Builder'),
+            title: const Text('DResume'),
             actions: [
               IconButton(
                 tooltip: 'Choose template',
@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Image.asset(
-                                'assets/images/dhebe_resume_builder_logo.png',
+                                'assets/images/dresume_icon.png',
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Dhebe Resume Builder',
+                                    'DResume',
                                     style: theme.textTheme.headlineSmall?.copyWith(
                                       color: const Color(0xFF0B2242),
                                       fontWeight: FontWeight.w800,
@@ -103,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    'Build polished resumes, save drafts, and export professional PDFs with stronger readability and a cleaner flow.',
+                                    'Create clean resumes fast, save drafts, and export professional PDFs from one focused workspace.',
                                     style: theme.textTheme.bodyLarge?.copyWith(
                                       color: const Color(0xFF28466C),
                                       height: 1.4,
