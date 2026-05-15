@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../models/resume_model.dart';
@@ -28,6 +31,7 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
   final _summaryController = TextEditingController();
   final _skillController = TextEditingController();
   final _keywordController = TextEditingController();
+  final _imagePicker = ImagePicker();
 
   List<String> _skills = [];
   List<String> _focusKeywords = [];
@@ -35,6 +39,7 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
   List<ExperienceEntry> _experience = [];
   List<ProjectEntry> _projects = [];
   List<CertificationEntry> _certifications = [];
+  String _profilePhotoPath = '';
   String _resumeId = '';
   String _templateId = 'ats';
   bool _initialized = false;
@@ -97,6 +102,7 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
     _emailController.text = current.email;
     _phoneController.text = current.phone;
     _addressController.text = current.address;
+    _profilePhotoPath = current.profilePhotoPath;
     _linkedinController.text = current.linkedinUrl;
     _portfolioController.text = current.portfolioUrl;
     _summaryController.text = current.summary;
@@ -122,6 +128,7 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
       email: _emailController.text.trim(),
       phone: _phoneController.text.trim(),
       address: _addressController.text.trim(),
+      profilePhotoPath: _profilePhotoPath,
       linkedinUrl: _linkedinController.text.trim(),
       portfolioUrl: _portfolioController.text.trim(),
       summary: _summaryController.text.trim(),
@@ -162,6 +169,25 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
     setState(() {
       _focusKeywords = [..._focusKeywords, value];
       _keywordController.clear();
+    });
+  }
+
+  Future<void> _pickProfilePhoto() async {
+    final file = await _imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 88,
+      maxWidth: 1400,
+    );
+    if (file == null || !mounted) return;
+
+    setState(() {
+      _profilePhotoPath = file.path;
+    });
+  }
+
+  void _removeProfilePhoto() {
+    setState(() {
+      _profilePhotoPath = '';
     });
   }
 
@@ -545,6 +571,84 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
       icon: Icons.badge_outlined,
       child: Column(
         children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    width: 82,
+                    height: 96,
+                    color: const Color(0xFFE2E8F0),
+                    child: _profilePhotoPath.isEmpty
+                        ? const Icon(
+                            Icons.account_box_outlined,
+                            size: 40,
+                            color: Color(0xFF48627D),
+                          )
+                        : Image.file(
+                            File(_profilePhotoPath),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.broken_image_outlined,
+                                size: 40,
+                                color: Color(0xFF48627D),
+                              );
+                            },
+                          ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Profile Photo',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Useful for visual resumes. ATS Professional keeps the exported PDF more text-first, while design-forward templates can feature the photo more prominently.',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: const Color(0xFF48627D),
+                              height: 1.4,
+                            ),
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: [
+                          FilledButton.tonalIcon(
+                            onPressed: _pickProfilePhoto,
+                            icon: const Icon(Icons.photo_library_outlined),
+                            label: Text(
+                              _profilePhotoPath.isEmpty ? 'Add Photo' : 'Change Photo',
+                            ),
+                          ),
+                          if (_profilePhotoPath.isNotEmpty)
+                            TextButton.icon(
+                              onPressed: _removeProfilePhoto,
+                              icon: const Icon(Icons.delete_outline),
+                              label: const Text('Remove'),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
           TextFormField(
             controller: _titleController,
             decoration: const InputDecoration(labelText: 'Resume Title'),
@@ -755,9 +859,7 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
   Widget _buildTemplateSection() {
     return SectionCard(
       title: 'Template',
-      subtitle: _templateId == 'fresher'
-          ? 'Fresher Spotlight is active.'
-          : 'ATS Professional is active.',
+      subtitle: '${_buildResume().templateName} is active.',
       icon: Icons.dashboard_customize_outlined,
       child: Row(
         children: [

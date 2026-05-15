@@ -78,6 +78,7 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
       email: _emailController.text.trim(),
       phone: _phoneController.text.trim(),
       address: _addressController.text.trim(),
+      profilePhotoPath: '',
       linkedinUrl: '',
       portfolioUrl: '',
       summary: _summaryController.text.trim(),

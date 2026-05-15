@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:printing/printing.dart';
@@ -63,11 +65,34 @@ class _ResumePreviewScreenState extends State<ResumePreviewScreen> {
             child: SectionCard(
               title: resume.title,
               subtitle:
-                  'Template: ${resume.templateId == 'fresher' ? 'Fresher Spotlight' : 'ATS Professional'} | Completion ${resume.completionScore}% | ATS ${resume.atsScore}%',
+                  'Template: ${resume.templateName} | Completion ${resume.completionScore}% | ATS ${resume.atsScore}%',
               icon: Icons.analytics_outlined,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (resume.hasProfilePhoto) ...[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(18),
+                      child: Image.file(
+                        File(resume.profilePhotoPath),
+                        width: 88,
+                        height: 104,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: 88,
+                            height: 104,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF1F5F9),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: const Icon(Icons.account_box_outlined),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                  ],
                   Text(
                     resume.fullName.isEmpty ? 'Add your name in the editor.' : resume.fullName,
                     style: Theme.of(context).textTheme.headlineSmall,

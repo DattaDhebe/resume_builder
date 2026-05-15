@@ -128,7 +128,27 @@ class HomeScreen extends StatelessWidget {
                             _MetricChip(label: 'Drafts', value: resumes.length.toString()),
                             _MetricChip(label: 'Ready', value: provider.completedCount.toString()),
                             _MetricChip(label: 'Avg ATS', value: '${provider.averageAtsScore}%'),
-                            const _MetricChip(label: 'Templates', value: '2'),
+                            const _MetricChip(label: 'Templates', value: '3'),
+                          ],
+                        ),
+                        const SizedBox(height: 18),
+                        Wrap(
+                          spacing: 12,
+                          runSpacing: 12,
+                          children: [
+                            FilledButton.icon(
+                              onPressed: () {
+                                context.read<ResumeProvider>().startNewResume();
+                                context.go('/editor');
+                              },
+                              icon: const Icon(Icons.add_circle_outline),
+                              label: const Text('Start New'),
+                            ),
+                            OutlinedButton.icon(
+                              onPressed: () => context.go('/import'),
+                              icon: const Icon(Icons.upload_file_outlined),
+                              label: const Text('Import Resume'),
+                            ),
                           ],
                         ),
                       ],
@@ -202,6 +222,11 @@ class HomeScreen extends StatelessWidget {
                         _FeatureTile(
                           title: 'Projects and certifications',
                           detail: 'Show practical proof beyond work history, especially useful for students, developers, and career changers.',
+                        ),
+                        SizedBox(height: 12),
+                        _FeatureTile(
+                          title: 'Photo and import ready',
+                          detail: 'Add a profile photo for visual templates or paste an existing resume to generate a new editable draft quickly.',
                         ),
                       ],
                     ),

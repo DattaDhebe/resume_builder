@@ -27,7 +27,7 @@ class TemplateSelectionScreen extends StatelessWidget {
         children: [
           SectionCard(
             title: 'Template Gallery',
-            subtitle: 'Choose an ATS-safe structure or a fresher-forward visual layout.',
+            subtitle: 'Choose between ATS-safe, fresher-friendly, or photo-ready executive layouts.',
             icon: Icons.view_quilt_outlined,
             child: Column(
               children: [
@@ -48,6 +48,16 @@ class TemplateSelectionScreen extends StatelessWidget {
                   accent: const Color(0xFF0F766E),
                   onTap: () {
                     provider.updateCurrentResume(resume.copyWith(templateId: 'fresher'));
+                  },
+                ),
+                const SizedBox(height: 14),
+                _TemplateOption(
+                  title: 'Executive Edge',
+                  description: 'A more premium two-column layout that works especially well with a profile photo and leadership-focused content.',
+                  selected: resume.templateId == 'executive',
+                  accent: const Color(0xFF1D4ED8),
+                  onTap: () {
+                    provider.updateCurrentResume(resume.copyWith(templateId: 'executive'));
                   },
                 ),
               ],

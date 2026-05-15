@@ -10,11 +10,13 @@ import 'package:printing/printing.dart';
 
 import '../models/resume_model.dart';
 import '../templates/ats_template.dart';
+import '../templates/executive_edge_template.dart';
 import '../templates/fresher_spotlight_template.dart';
 
 class PdfService {
   static Future<Uint8List> buildResumePdf(ResumeModel resume) async {
     final pdf = pw.Document();
+    final profileImage = await _loadProfileImage(resume);
 
     pdf.addPage(
       pw.MultiPage(
@@ -24,6 +26,10 @@ class PdfService {
         ),
         build: (context) => switch (resume.templateId) {
           'fresher' => buildFresherTemplate(resume),
+          'executive' => buildExecutiveTemplate(
+              resume,
+              profileImage: profileImage,
+            ),
           _ => buildAtsTemplate(resume),
         },
       ),
@@ -59,5 +65,19 @@ class PdfService {
         : resume.fullName.trim().toLowerCase().replaceAll(' ', '_');
     final date = DateFormat('yyyyMMdd_HHmm').format(resume.updatedAt);
     return '${slug}_$date.pdf';
+  }
+
+  static Future<pw.MemoryImage?> _loadProfileImage(ResumeModel resume) async {
+    if (!resume.hasProfilePhoto) return null;
+
+    try {
+      final file = File(resume.profilePhotoPath);
+      if (!await file.exists()) return null;
+      final bytes = await file.readAsBytes();
+      if (bytes.isEmpty) return null;
+      return pw.MemoryImage(bytes);
+    } catch (_) {
+      return null;
+    }
   }
 }

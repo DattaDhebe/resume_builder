@@ -8,6 +8,7 @@ class ResumeModel {
     required this.email,
     required this.phone,
     required this.address,
+    required this.profilePhotoPath,
     required this.linkedinUrl,
     required this.portfolioUrl,
     required this.summary,
@@ -31,6 +32,7 @@ class ResumeModel {
       email: '',
       phone: '',
       address: '',
+      profilePhotoPath: '',
       linkedinUrl: '',
       portfolioUrl: '',
       summary: '',
@@ -55,6 +57,7 @@ class ResumeModel {
       email: map['email'] as String? ?? '',
       phone: map['phone'] as String? ?? '',
       address: map['address'] as String? ?? '',
+      profilePhotoPath: map['profilePhotoPath'] as String? ?? '',
       linkedinUrl: map['linkedinUrl'] as String? ?? '',
       portfolioUrl: map['portfolioUrl'] as String? ?? '',
       summary: map['summary'] as String? ?? '',
@@ -85,6 +88,7 @@ class ResumeModel {
   final String email;
   final String phone;
   final String address;
+  final String profilePhotoPath;
   final String linkedinUrl;
   final String portfolioUrl;
   final String summary;
@@ -107,6 +111,8 @@ class ResumeModel {
 
   bool get hasOnlinePresence =>
       linkedinUrl.trim().isNotEmpty || portfolioUrl.trim().isNotEmpty;
+
+  bool get hasProfilePhoto => profilePhotoPath.trim().isNotEmpty;
 
   bool get hasQuantifiedImpact {
     final numberMatcher = RegExp(r'\d');
@@ -132,6 +138,12 @@ class ResumeModel {
     if (targetRole.trim().isNotEmpty) return targetRole.trim();
     return '';
   }
+
+  String get templateName => switch (templateId) {
+        'fresher' => 'Fresher Spotlight',
+        'executive' => 'Executive Edge',
+        _ => 'ATS Professional',
+      };
 
   String get _searchableContent {
     final parts = <String>[
@@ -279,6 +291,7 @@ class ResumeModel {
     String? email,
     String? phone,
     String? address,
+    String? profilePhotoPath,
     String? linkedinUrl,
     String? portfolioUrl,
     String? summary,
@@ -300,6 +313,7 @@ class ResumeModel {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       address: address ?? this.address,
+      profilePhotoPath: profilePhotoPath ?? this.profilePhotoPath,
       linkedinUrl: linkedinUrl ?? this.linkedinUrl,
       portfolioUrl: portfolioUrl ?? this.portfolioUrl,
       summary: summary ?? this.summary,
@@ -324,6 +338,7 @@ class ResumeModel {
       'email': email,
       'phone': phone,
       'address': address,
+      'profilePhotoPath': profilePhotoPath,
       'linkedinUrl': linkedinUrl,
       'portfolioUrl': portfolioUrl,
       'summary': summary,

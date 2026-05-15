@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'screens/dashboard_home_screen.dart';
 import 'screens/resume_editor_screen.dart';
 import 'screens/resume_export_screen.dart';
+import 'screens/resume_import_screen.dart';
 import 'screens/template_selection_screen.dart';
 
 class ResumeBuilderApp extends StatefulWidget {
@@ -20,6 +21,7 @@ class _ResumeBuilderAppState extends State<ResumeBuilderApp> {
       GoRoute(path: '/editor', builder: (context, state) => const ResumeFormScreen()),
       GoRoute(path: '/templates', builder: (context, state) => const TemplateSelectionScreen()),
       GoRoute(path: '/preview', builder: (context, state) => const ResumePreviewScreen()),
+      GoRoute(path: '/import', builder: (context, state) => const ResumeImportScreen()),
     ],
   );
 
