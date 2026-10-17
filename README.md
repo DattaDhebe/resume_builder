@@ -1,5 +1,9 @@
-<h1 align="center">Dhebe Resume Builder</h1>
-<p align="center"><strong>Turn career details into a structured, printable resume.</strong><br>Flutter · Dart · Provider · Hive · PDF</p>
+<p align="center">
+  <img src="docs/assets/project-banner.svg" alt="Dhebe Resume Builder — From career details to a printable resume." width="100%">
+</p>
+
+<p align="center"><a href="#quick-start">Quick start</a> · <a href="#a-guided-code-tour">Code tour</a> · <a href="#development">Development</a></p>
+
 
 A Flutter application for drafting, editing and exporting resumes. The repository includes structured resume models, local persistence, text import, template selection, and a PDF preview/export workflow.
 
@@ -50,6 +54,6 @@ flutter analyze
 flutter test
 ```
 
-Review imported fields and the final PDF before sharing a resume. The commands above describe the development workflow; they are not a published test-result claim.
+Review imported fields and the final PDF before sharing a resume.
 
 Built by [Datta Dhebe](https://github.com/DattaDhebe).
